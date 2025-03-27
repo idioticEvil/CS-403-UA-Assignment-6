@@ -1,0 +1,13 @@
+EdgeBoxZero box 0 2 3
+EdgeBoxCube box 3 3 3
+NormalBox box 5.5 2.3 4.1
+DegenerateBox box 0 0 0
+EdgeCylZero cylinder 1 0
+NormalCyl cylinder 2 5
+TestCyl cylinder 1 2
+EdgeSphereZero sphere 0
+NormalSphere sphere 4.5
+LargeSphere sphere 100
+EdgeTorusEqual torus 1 1
+NormalTorus torus 2 5
+DonutTest torus 3 7
