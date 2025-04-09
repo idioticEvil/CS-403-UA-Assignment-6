@@ -5,71 +5,87 @@ It provides methods to set and get the dimensions of the box,
 and to calculate its area and volume.
 It also includes a method to return information about the box.
 "
+
 Shape subclass: #Box
     instanceVariableNames: 'length width height'
     classVariableNames: ''
-    package: 'ShapePackage'
+    poolDictionaries: ''.
 
-"Class Constructor for Box"
-Box class>>name: aString, length: aLength, width: aWidth, height: aHeight
-    ^ self new initializeShape: aString, length: aLength, width: aWidth, height: aHeight
+!Box class methodsFor: 'instance creation'!
+name: aString length: aLength width: aWidth height: aHeight
+    ^self new initializeShape: aString length: aLength width: aWidth height: aHeight
+! !
 
-"Initializer for Box"
-Box>>initializeShape: aString, length: aLength, width: aWidth, height: aHeight
-    setName: aString.
-    length := length.
-    width := width.
-    height := height.
-    ^ self
-
-"Setters and Getters for Box dimensions"
-Box>>setLength: aLength
+!Box methodsFor: 'initialization'!
+initializeShape: aString length: aLength width: aWidth height: aHeight
+    self setName: aString.
     length := aLength.
-    ^ self
-
-Box>>length
-    ^ length
-
-Box>>setWidth: aWidth
     width := aWidth.
-    ^ self
-
-Box>>width
-    ^ width
-
-Box>>setHeight: aHeight
     height := aHeight.
-    ^ self
+    
+    ^self
+! !
 
-Box>>height
-    ^ height
+!Box methodsFor: 'accessing'!
+setLength: aLength
+    length := aLength.
+    ^self
+!
 
-"Defines the type of the box class for the getType method in the superclass"
-Box class>>type
-    ^ 'box'
+length
+    ^length
+!
 
-"Calculates the surface area of the box"
-Box>>getArea
-    ^ 2 * (length * width + length * height + width * height)
+setWidth: aWidth
+    width := aWidth.
+    ^self
+!
 
-"Calculates the volume of the box"
-Box>>getVolume
-    ^ length * width * height
+width
+    ^width
+!
 
-"Returns a string containing information for the box class"
-Box>>getInfo
-    | stream |
-    stream := String new writeStream.
-    stream
-        nextPutAll: 'Box: ', self name, ' Length=';
-        format: '%.2f' with: self length;
-        nextPutAll: ', Width=';
-        format: '%.2f' with: self width;
-        nextPutAll: ', Height=';
-        format: '%.2f' with: self height;
-        nextPutAll: '   Surface Area=';
-        format: '%.2f' with: self getArea;
-        nextPutAll: ', Volume=';
-        format: '%.2f' with: self getVolume.
-    ^ stream contents
+setHeight: aHeight
+    height := aHeight.
+    ^self
+!
 
+height
+    ^height
+! !
+
+!Box class methodsFor: 'shape properties'!
+type
+    ^'box'
+! !
+
+!Box methodsFor: 'shape properties'!
+getArea
+    | lw lh wh |
+    lw := length * width.
+    lh := length * height.
+    wh := width * height.
+    ^2 * (lw + lh + wh)
+!
+
+getVolume
+    ^length * width * height
+!
+
+!Box methodsFor: 'printing'!
+getInfo
+    | formatLength formatWidth formatHeight formatArea formatVolume line1 line2 |
+
+    formatLength := self formatToTwoDecimalPlaces: length.
+    formatWidth := self formatToTwoDecimalPlaces: width.
+    formatHeight := self formatToTwoDecimalPlaces: height.
+    formatArea := self formatToTwoDecimalPlaces: self getArea.
+    formatVolume := self formatToTwoDecimalPlaces: self getVolume.
+
+    line1 := 'Box: ', self name, ' Length=', formatLength, 
+             ', Width=', formatWidth, ', Height=', formatHeight.
+             
+    line2 := '   Surface Area=', formatArea, ', Volume=', formatVolume.
+    
+    ^ line1, Character lf asString, line2
+! !

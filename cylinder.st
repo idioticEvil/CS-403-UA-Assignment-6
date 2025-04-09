@@ -5,60 +5,68 @@ It provides methods to set and get the radius and height of the cylinder,
 and to calculate its area and volume.
 It also includes a method to return information about the cylinder.
 "
+
 Shape subclass: #Cylinder
-    instanceVariableNames: 'radius, height'
+    instanceVariableNames: 'radius height'
     classVariableNames: ''
-    package: 'ShapePackage'
+    poolDictionaries: ''.
 
-"Class Constructor for Cylinder"
-Cylinder class>>aString, radius: aRadius, height: aHeight
-    ^ self new initializeShape: aString, radius: aRadius, height: aHeight
+!Cylinder class methodsFor: 'instance creation'!
+name: aString radius: aRadius height: aHeight
+    ^ self new initializeShape: aString radius: aRadius height: aHeight
+! !
 
-"Initializer for Cylinder"
-Cylinder>>initializeShape: aString, radius: aRadius, height: aHeight
-    setName: aString.
+!Cylinder methodsFor: 'initialization'!
+initializeShape: aString radius: aRadius height: aHeight
+    self setName: aString.
     radius := aRadius.
     height := aHeight.
     ^ self
+! !
 
-"Setters and Getters for Cylinder dimensions"
-Cylinder>>setRadius: aRadius
+!Cylinder methodsFor: 'accessing'!
+setRadius: aRadius
     radius := aRadius.
     ^ self
+!
 
-Cylinder>>radius
+radius
     ^ radius
+!
 
-Cylinder>>setHeight: aHeight
+setHeight: aHeight
     height := aHeight.
     ^ self
+!
 
-Cylinder>>height
+height
     ^ height
+! !
 
-"Defines the type of the cylinder class for the getType method in the superclass"
-Cylinder class>>type
+!Cylinder class methodsFor: 'type'!
+type
     ^ 'cylinder'
+! !
 
-"Calculates the surface area of the cylinder"
-Cylinder>>getArea
+!Cylinder methodsFor: 'shape properties'!
+getArea
     ^ 2 * Float pi * radius * (radius + height)
+!
 
-"Calculates the volume of the cylinder"
-Cylinder>>getVolume
+getVolume
     ^ Float pi * radius squared * height
+! !
 
-"Returns a string containing information for the cylinder class"
-Cylinder>>getInfo
-    | stream |
-    stream := String new writeStream.
-    stream
-        nextPutAll: 'Cylinder: ', self name, ' Radius=';
-        format: '%.2f' with: self radius;
-        nextPutAll: ' Height=';
-        format: '%.2f' with: self height;
-        nextPutAll: '   Surface Area=';
-        format: '%.2f' with: self getArea;
-        nextPutAll: ', Volume=';
-        format: '%.2f' with: self getVolume.
-    ^ stream contents
+!Cylinder methodsFor: 'printing'!
+getInfo
+    | formatRadius formatHeight formatArea formatVolume line1 line2 |
+    formatRadius := self formatToTwoDecimalPlaces: radius.
+    formatHeight := self formatToTwoDecimalPlaces: height.
+    formatArea := self formatToTwoDecimalPlaces: self getArea.
+    formatVolume := self formatToTwoDecimalPlaces: self getVolume.
+    
+    line1 := 'Cylinder: ', self name, ' Radius=', formatRadius, ' Height=', formatHeight.
+    line2 := '   Surface Area=', formatArea, ', Volume=', formatVolume.
+    
+    ^ line1, Character lf asString, line2
+! !

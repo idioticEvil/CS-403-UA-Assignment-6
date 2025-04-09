@@ -1,64 +1,73 @@
-"
-Torus class definition
+"Shape class definition
 This class inherits from Shape and represents a torus (donut shape).
 It provides methods to set and get the major and minor radii of the torus,
 and to calculate its surface area and volume.
-It also includes a method to return information about the torus.
-"
+It also includes a method to return information about the torus."
+
 Shape subclass: #Torus
     instanceVariableNames: 'majorRadius minorRadius'
     classVariableNames: ''
-    package: 'ShapePackage'
+    poolDictionaries: ''.
 
-"Class Constructor for Torus"
-Torus class>>name: aString majorRadius: aMajorRadius minorRadius: aMinorRadius
-    ^ self new initializeShape: aString majorRadius: aMajorRadius minorRadius: aMinorRadius
+!Torus class methodsFor: 'instance creation'!
+name: aString minorRadius: aMinorRadius majorRadius: aMajorRadius
+    ^ self new initializeShape: aString minorRadius: aMinorRadius majorRadius: aMajorRadius
+! !
 
-"Initializer for Torus"
-Torus>>initializeShape: aString majorRadius: aMajorRadius minorRadius: aMinorRadius
+!Torus methodsFor: 'initialization'!
+initializeShape: aString minorRadius: aMinorRadius majorRadius: aMajorRadius 
     self setName: aString.
-    majorRadius := aMajorRadius.
     minorRadius := aMinorRadius.
-    ^ self
+    majorRadius := aMajorRadius.
 
-"Setters and Getters for Torus dimensions"
-Torus>>setMajorRadius: aMajorRadius
+    ^ self
+! !
+
+!Torus methodsFor: 'accessing'!
+setMajorRadius: aMajorRadius
     majorRadius := aMajorRadius.
     ^ self
+!
 
-Torus>>majorRadius
+majorRadius
     ^ majorRadius
+!
 
-Torus>>setMinorRadius: aMinorRadius
+setMinorRadius: aMinorRadius
     minorRadius := aMinorRadius.
     ^ self
+!
 
-Torus>>minorRadius
+minorRadius
     ^ minorRadius
+! !
 
-"Defines the type of the torus class for the getType method in the superclass"
-Torus class>>type
+!Torus class methodsFor: 'type'!
+type
     ^ 'torus'
+! !
 
-"Calculates the surface area of the torus"
-Torus>>getArea
-    ^ 4.0 * Float pi squared * majorRadius * minorRadius
 
-"Calculates the volume of the torus"
-Torus>>getVolume
-    ^ 2.0 * Float pi squared * majorRadius * minorRadius squared
+!Torus methodsFor: 'shape properties'!
+getArea
+    ^ 4 * (Float pi * Float pi) * majorRadius * minorRadius
+!
 
-"Returns a string containing information for the torus class"
-Torus>>getInfo
-    | stream |
-    stream := String new writeStream.
-    stream
-        nextPutAll: 'Torus: ', self name, ' Small Radius=';
-        format: '%.2f' with: self minorRadius;
-        nextPutAll: ', Big Radius=';
-        format: '%.2f' with: self majorRadius;
-        nextPutAll: '   Surface Area=';
-        format: '%.2f' with: self getArea;
-        nextPutAll: ', Volume=';
-        format: '%.2f' with: self getVolume.
-    ^ stream contents
+"Volume of a torus: 2 * pi^2 * R * r^2"
+getVolume
+    ^ 2 * Float pi squared * majorRadius * (minorRadius squared)
+! !
+
+!Torus methodsFor: 'printing'!
+getInfo
+    | formatMinorRadius formatMajorRadius formatArea formatVolume line1 line2 |
+    
+    formatMinorRadius := self formatToTwoDecimalPlaces: minorRadius.
+    formatMajorRadius := self formatToTwoDecimalPlaces: majorRadius.
+    formatArea := self formatToTwoDecimalPlaces: self getArea.
+    formatVolume := self formatToTwoDecimalPlaces: self getVolume.
+
+    line1 := 'Torus: ', self name, ' Small Radius=', formatMinorRadius, ', Big Radius=', formatMajorRadius.
+    line2 := '   Surface Area=', formatArea, ', Volume=', formatVolume.
+    ^ line1, Character lf asString, line2
+! !
